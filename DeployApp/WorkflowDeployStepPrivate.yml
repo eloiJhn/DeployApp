@@ -68,7 +68,7 @@ jobs:
       uses: w9jds/firebase-action@master
       with:
         args: appdistribution:distribute ./publish/android/<YourApkFile> --app <YourAppID>
-        # Remplacer <YourApkFile> par le nom de votre fichier APK. Exemple : com.companyname.deployapp-Signed.apk
+        # Remplacer <YourApkFile> par le nom de votre fichier APK. Exemple : com.company.deployapp-Signed.apk
         # Remplacer <YourAppID> par l'ID de votre application.
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
