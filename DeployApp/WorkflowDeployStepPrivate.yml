@@ -39,11 +39,7 @@ on:
       uses: actions/setup-node@v2
       with:
         node-version: 16
-    
-# Permet de décoder le fichier my-release-key.keystore (étape pour dépôt publique)
-    - name: Restore keystore file
-      run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > NameProject/my-release-key.keystore
-      
+   
     - name: Install .NET Workloads
       run: dotnet workload install maui-android
 
