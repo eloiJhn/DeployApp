@@ -22,7 +22,7 @@ on:
     branches:
       - main
 
-  jobs:
+jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
@@ -40,27 +40,31 @@ on:
       with:
         node-version: 16
         
-        
-     # Permet de décoder le fichier my-release-key.keystore (étape pour dépôt publique)
+      # Permet de décoder le fichier my-release-key.keystore (étape pour dépôt publique)
     - name: Restore keystore file
-      run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > NameProject/my-release-key.keystore
-   
+      run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > <YourSolutionPath>
+      # Remplacer <YourSolutionPath> par le chemin de votre solution. Exemple : NameProject/my-release-key.keystore
+
     - name: Install .NET Workloads
       run: dotnet workload install maui-android
 
     - name: Install dependencies
-      run: dotnet restore DeployApp/DeployApp/DeployApp.sln 
+      run: dotnet restore <YourSolutionPath> 
+      # Remplacer <YourSolutionPath> par le chemin de votre solution. Exemple : DeployApp/DeployApp/DeployApp.sln
       
     - name: Build
-      run: dotnet build --configuration Release --no-restore NameProject/DeployApp.sln 
+      run: dotnet build --configuration Release --no-restore <YourSolutionPath> 
+      # Remplacer <YourSolutionPath> par le chemin de votre solution. Exemple : NameProject/DeployApp.sln
       env:
-        KEYSTORE_PATH: ${{ github.workspace }}/NameProject/my-release-key.keystore
+        KEYSTORE_PATH: ${{ github.workspace }}/<YourKeystorePath>
+        # Remplacer <YourKeystorePath> par le chemin de votre fichier keystore. Exemple : NameProject/my-release-key.keystore
         KEYSTORE_PASSWORD:  ${{ secrets.KEYSTORE_PASSWORD }}
         KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         
     - name: Publish
-      run: dotnet publish NameProject/DeployApp.csproj --framework net7.0-android --configuration Release --output ./publish/android
+      run: dotnet publish <YourProjectPath> --framework net7.0-android --configuration Release --output ./publish/android
+      # Remplacer <YourProjectPath> par le chemin de votre projet. Exemple : NameProject/DeployApp.csproj
       
     - name: Install Firebase CLI
       run: npm install -g firebase-tools
@@ -68,6 +72,8 @@ on:
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master
       with:
-        args: appdistribution:distribute ./publish/android/com.companyname.deployapp-Signed.apk --app 1:399315502479:android:22460bb7bae6f4343d37fa
+        args: appdistribution:distribute ./publish/android/<YourApkFile> --app <YourAppID>
+        # Remplacer <YourApkFile> par le nom de votre fichier APK. Exemple : com.company.deployapp-Signed.apk
+        # Remplacer <YourAppID> par l'ID de votre application.
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
