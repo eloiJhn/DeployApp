@@ -77,7 +77,7 @@ Avant de commencer, assurez-vous que :
 
    - Dans le fichier `AndroidManifest.xml` (situé dans `Platforms-Android-AndroidManifest.xml`), remplacez son contenu par ceci :
 
-    ```xml
+    ```
     <?xml version="1.0" encoding="utf-8"?>
     <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.company.nameproject">
         <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
@@ -123,10 +123,8 @@ Avant de commencer, assurez-vous que :
       [Workflow Deploy](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/Workflow%20deploy.yml)
    -  Pour le dépot publique :
       [Workflow Deploy](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/Workflow%20deploy.yml)
-
-   
       
-    - Pour récupérer le chemin d'accès du keystore, si vous êtes sur un dépôt privé, il suffit de mettre le chemin d'accès au fichier `my-release-key.keystore`. Si vous êtes sur un dépôt public, vous devez encoder le fichier car il s'agit de données confidentielles.
+    -  Si vous êtes sur un dépôt public, vous devez encoder le fichier car il s'agit de données confidentielles.
 
     - Pour encoder le fichier sur Windows, voici la commande à effectuer sur votre projet en local  :
     ```bash
@@ -141,19 +139,19 @@ Avant de commencer, assurez-vous que :
 </p>
 
 
-4. Tous les endroits où il y a `NameProject`, remplacez-le par votre chemin d'accès :
-    ```bash
-    run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > NameProject/my-release-key.keystore
-    run: dotnet build --configuration Release --no-restore NameProject/DeployApp.sln
-    KEYSTORE_PATH: ${{ github.workspace }}/NameProject/my-release-key.keystore
-    run: dotnet publish NameProject/DeployApp.csproj --framework net7.0-android --configuration Release --output ./publish/android
-    ```
+4. Dans le worflow que vous aurez copié, j'ai mis en commentaire tous les endroits que vous devez modifier :
 
-5. Remplacez le nom de votre projet et l'ID de votre application sur cette ligne :
+  - `<YourSolutionPath>`
+  - `<YourKeystorePath>`
+  - `<YourProjectPath>`
+  - `<YourApkFile>`
+  - `<YourAppID>`
+
+5. Remplacez le nom de votre APK et l'ID de votre application sur cette ligne :
     ```bash
-    args: appdistribution:distribute ./publish/android/com.companyname.nameproject-Signed.apk -- ID Application 
+    args: appdistribution:distribute ./publish/android/<YourApkFile> --app <YourAppID>
     ```
-    - L'ID de votre application se trouve ici 
+    - Le nom de votre APK et l'ID de votre application se trouve ici 
 
 <p align="center">
   <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/namepackage.png" width="600">
