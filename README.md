@@ -119,8 +119,12 @@ Avant de commencer, assurez-vous que :
 
 3. Créez un fichier de workflow pour GitHub Actions :
     - Créez un nouveau fichier dans le répertoire `.github/workflows` de votre dépôt. Vous pouvez l'appeler `deploy-to-firebase.yml`. Ce fichier contiendra la configuration de votre workflow GitHub Actions.
-    - Voici le fichier que vous devez copier
+    - Voici le fichier que vous devez copier pour le dépot privé
       [Workflow Deploy](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/Workflow%20deploy.yml)
+   -  Pour le dépot publique :
+      [Workflow Deploy](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/Workflow%20deploy.yml)
+
+   
       
     - Pour récupérer le chemin d'accès du keystore, si vous êtes sur un dépôt privé, il suffit de mettre le chemin d'accès au fichier `my-release-key.keystore`. Si vous êtes sur un dépôt public, vous devez encoder le fichier car il s'agit de données confidentielles.
 
