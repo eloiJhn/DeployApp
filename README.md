@@ -1,3 +1,6 @@
+**To read this document in English, click [here](https://github.com/eloiJhn/DeployApp/blob/main/README_EN.md).**
+
+
 # 🚀 DeployApp
 **Tutoriel officiel pour déployer une application .NET MAUI sur Firebase avec Github Actions [GRATUIT] [SEULEMENT ANDROID/APK]**
 
@@ -88,7 +91,7 @@ Avant de commencer, assurez-vous que :
     ```
     
 
-   - Remplacez `<YourNamePackage>`, par le nom que vous avez choisi lorsque vous avez créé le projet..
+   - Remplacez `<YourNamePackage>`, par le nom que vous avez choisi lorsque vous avez créé le projet.
 
 <p align="center">
   <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/namepackage.png" width="600">
