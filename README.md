@@ -16,6 +16,7 @@ Avant de commencer, assurez-vous que :
 <p align="center">
   <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/1%20createproject.png" width="400">
   <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/2%20create%20project.png" width="400">
+  <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/3%20create%20project.png" width="400">
 </p>
 
 3. Une fois le projet créé, sélectionnez l'icône Android et remplissez les 4 étapes suivantes :
@@ -76,18 +77,18 @@ Avant de commencer, assurez-vous que :
 </p>
 
    - Dans le fichier `AndroidManifest.xml` (situé dans `Platforms-Android-AndroidManifest.xml`), remplacez son contenu par ceci :
-
-    ```
+    
     <?xml version="1.0" encoding="utf-8"?>
-    <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.company.nameproject">
+    <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="<YourNamePackage>">
         <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
         <application android:allowBackup="true" android:usesCleartextTraffic="true" android:icon="@mipmap/appicon" android:supportsRtl="true"></application>
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
         <uses-permission android:name="android.permission.INTERNET" />
     </manifest>
     ```
+    
 
-   - Pour `package`, utilisez le nom trouvé dans Firebase.
+   - Remplacez `<YourNamePackage>`, par le nom que vous avez choisi lorsque vous avez créé le projet..
 
 <p align="center">
   <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/namepackage.png" width="600">
@@ -116,22 +117,20 @@ Avant de commencer, assurez-vous que :
   <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/firebasetoken.png" width="400">
 </p>
 
-
 3. Créez un fichier de workflow pour GitHub Actions :
     - Créez un nouveau fichier dans le répertoire `.github/workflows` de votre dépôt. Vous pouvez l'appeler `deploy-to-firebase.yml`. Ce fichier contiendra la configuration de votre workflow GitHub Actions.
-    - Voici le fichier que vous devez copier pour le dépot privé
-      [Workflow Deploy](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/Workflow%20deploy.yml)
-   -  Pour le dépot publique :
-      [Workflow Deploy](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/Workflow%20deploy.yml)
-      
-    -  Si vous êtes sur un dépôt public, vous devez encoder le fichier car il s'agit de données confidentielles.
+    - Selon le type de votre dépôt (privé ou public), suivez les instructions appropriées ci-dessous :
 
-    - Pour encoder le fichier sur Windows, voici la commande à effectuer sur votre projet en local  :
-    ```bash
+:closed_lock_with_key: **Pour un dépôt privé :**
+  - Copiez le contenu de ce fichier : [Workflow Deploy pour dépôt privé](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/WorkflowDeployStepPrivate.yml)
+
+:unlock: **Pour un dépôt public :**
+  - Copiez le contenu de ce fichier : [Workflow Deploy pour dépôt public](https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/WorkflowDeployStepPublic.yml)
+  - Vous devez encoder le fichier keystore, car il contient des données confidentielles. Pour cela, exécutez la commande suivante sur votre projet en local (Windows) :
+    ```
     certutil -encode my-release-key.keystore keystore_base64.txt
     ```
-
-    - Ensuite, vous devez mettre le contenu du fichier `keystore_base64.txt` dans les secrets de Github pour pouvoir récupérer le fichier keystore sur le workflow
+  - Ensuite, vous devez mettre le contenu du fichier `keystore_base64.txt` dans les secrets de Github pour pouvoir récupérer le fichier keystore dans le workflow
 
 <p align="center">
   <img src="https://github.com/eloiJhn/DeployApp/blob/main/DeployApp/images/1%20keystorebase64.png" width="600">
