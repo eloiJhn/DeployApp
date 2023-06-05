@@ -1,19 +1,19 @@
-# Ce workflow a été créé par : https://github.com/eloiJhn
+# This workflow was created by: https://github.com/eloiJhn
 
-# Ce workflow automatise le déploiement d'une application Android sur Firebase App Distribution. Lorsqu'un changement est poussé sur la branche principale (main), le workflow se déclenche.
+# This workflow automates the deployment of an Android application on Firebase App Distribution. When a change is pushed to the main branch, the workflow is triggered.
 
-# Il effectue les étapes suivantes :
+# It performs the following steps:
 
-# 1) Il commence par extraire le code du dépôt à l'aide de l'action actions/checkout@v3.
-# 2) Il configure ensuite l'environnement d'exécution en installant .NET Core et Node.js.
-# 3) Il installe les dépendances de travail de .NET nécessaires pour le développement d'applications Android.
-# 4) Il restaure les dépendances du projet .NET à partir du fichier de solution.
-# 5) Il compile le projet en utilisant la commande dotnet build, en utilisant une clé de signature Android stockée de manière sécurisée.
-# 6) Il publie ensuite l'application Android, générant un fichier APK.
-# 7) Il installe l'interface de ligne de commande Firebase (Firebase CLI).
-# 8) Enfin, il déploie le fichier APK sur Firebase App Distribution, en le rendant accessible à un groupe de testeurs.
+# 1) First, it extracts the code from the repository using the actions/checkout@v3 action.
+# 2) He then configures the runtime environment by installing .NET Core and Node.js.
+# 3) Installs the .NET working dependencies required for Android application development.
+# 4) Restores .NET project dependencies from the solution file.
+# 5) He compiles the project using the dotnet build command, using a securely stored Android signature key.
+# 6) He then publishes the Android application, generating an APK file.
+# 7) He installs the Firebase command-line interface (Firebase CLI).
+# 8) Finally, he deploys the APK file on Firebase App Distribution, making it accessible to a group of testers.
 
-# L'environnement de construction et les secrets (comme les mots de passe de la clé de signature et le token Firebase) sont gérés de manière sécurisée par GitHub Actions.
+# The build environment and secrets (such as signing key passwords and the Firebase token) are securely managed by GitHub Actions.
 
 name: Deploy to Firebase App Distribution
 
@@ -45,21 +45,22 @@ jobs:
 
     - name: Install dependencies
       run: dotnet restore <YourSolutionPath> 
-      # Remplacer <YourSolutionPath> par le chemin de votre solution. Exemple : DeployApp/DeployApp/DeployApp.sln
+      # Replace <YourSolutionPath> with your solution path. Example: DeployApp/DeployApp/DeployApp.sln
+
       
     - name: Build
       run: dotnet build --configuration Release --no-restore <YourSolutionPath> 
       # Remplacer <YourSolutionPath> par le chemin de votre solution. Exemple : NameProject/DeployApp.sln
       env:
         KEYSTORE_PATH: ${{ github.workspace }}/<YourKeystorePath>
-        # Remplacer <YourKeystorePath> par le chemin de votre fichier keystore. Exemple : NameProject/my-release-key.keystore
+        # Replace <YourSolutionPath> with your solution path. Example: NameProject/DeployApp.sln
         KEYSTORE_PASSWORD:  ${{ secrets.KEYSTORE_PASSWORD }}
         KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         
     - name: Publish
       run: dotnet publish <YourProjectPath> --framework net7.0-android --configuration Release --output ./publish/android
-      # Remplacer <YourProjectPath> par le chemin de votre projet. Exemple : NameProject/DeployApp.csproj
+      # Replace <YourProjectPath> with your project path. Example: NameProject/DeployApp.csproj
       
     - name: Install Firebase CLI
       run: npm install -g firebase-tools
@@ -68,7 +69,7 @@ jobs:
       uses: w9jds/firebase-action@master
       with:
         args: appdistribution:distribute ./publish/android/<YourApkFile> --app <YourAppID>
-        # Remplacer <YourApkFile> par le nom de votre fichier APK. Exemple : com.company.deployapp-Signed.apk
-        # Remplacer <YourAppID> par l'ID de votre application.
+        # Replace <YourApkFile> with the name of your APK file. Example: com.company.deployapp-Signed.apk
+        # Replace <YourAppID> with the ID of your application.
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
